@@ -1,0 +1,40 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: example-pipeline-bfa
+spec:
+  workspaces:
+    - name: source
+  tasks:
+    - name: build
+      taskRef:
+        name: buildah-task
+      workspaces:
+        - name: source
+          workspace: source
+  - name: test
+      taskRef:
+        name: run-tests-task
+      workspaces:
+        - name: source
+          workspace: source
+  - name: deploy
+      taskRef:
+        name: deploy-task
+      workspaces:
+        - name: source
+          workspace: source
+      params:
+        - name: image-url
+          value: "openjdk:11-jre-slim"
+  resources:
+    - name: source
+      type: git
+      params:
+        - name: url
+          value: "https://github.com/your-repo"
+  - name: built-image
+      type: image
+      params:
+        - name: url
+          value: "$(params.image-url)"
