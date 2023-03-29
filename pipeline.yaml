@@ -32,7 +32,7 @@ spec:
       type: git
       params:
         - name: url
-          value: "https://github.com/your-repo"
+          value: "https://github.com/DavidFloresDatumredsoft/consola.git"
   - name: built-image
       type: image
       params:
